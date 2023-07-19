@@ -1,6 +1,7 @@
 set -euo pipefail
 
 root=$(dirname $0)
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 
 usage () {
     echo "usage: $0 ckp slang tlang < input > output" >&2
@@ -23,7 +24,6 @@ translate () {
         fairseq-interactive $root --input - -s $slang -t $tlang \
             --path $ckp --batch-size 1024 --max-tokens 8192 --buffer-size 100000 \
             --beam 4 --lenpen 1.0 \
-            --fp16 \
             --fixed-dictionary $root/dictionary.txt \
             --task translation_multi_simple_epoch \
             --decoder-langtok --encoder-langtok src \
